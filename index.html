@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autorización de Difusión de Medios — Mentoralia A.C.</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=Dancing+Script:wght@700&family=Great+Vibes&family=Satisfy&family=Caveat:wght@700&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple-deep:   #4B1FA8;
+    --purple-mid:    #6B35D1;
+    --purple-light:  #8B55E8;
+    --purple-pale:   #F0EAFF;
+    --purple-border: #D4C5F9;
+    --teal:          #00B5B0;
+    --teal-light:    #E0F7F6;
+    --gold:          #F5A623;
+    --text-dark:     #1A1035;
+    --text-body:     #3D3560;
+    --text-muted:    #7A6E9B;
+    --white:         #FFFFFF;
+    --bg:            #F9F7FF;
+    --error:         #D63C3C;
+    --success:       #1AAB5F;
+    --radius:        12px;
+    --shadow:        0 4px 24px rgba(75,31,168,0.10);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text-dark); min-height: 100vh; }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple-mid) 60%, var(--teal) 100%);
+    padding: 40px 24px 56px; text-align: center; position: relative; overflow: hidden;
+  }
+  header::before {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .logo-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.15); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.25); border-radius: 50px;
+    padding: 8px 20px; color: white; font-size: 13px; font-weight: 500;
+    letter-spacing: 0.04em; margin-bottom: 20px;
+  }
+  .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+  header h1 {
+    font-family: 'Playfair Display', serif; color: white;
+    font-size: clamp(22px, 4vw, 34px); font-weight: 700; line-height: 1.25; margin-bottom: 12px;
+  }
+  header p { color: rgba(255,255,255,0.80); font-size: 15px; max-width: 520px; margin: 0 auto; line-height: 1.6; }
+
+  /* MAIN */
+  main { max-width: 780px; margin: -24px auto 60px; padding: 0 20px; }
+
+  /* PROGRESS */
+  .progress-bar { height: 4px; background: var(--purple-pale); }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--purple-mid), var(--teal)); width: 0%; transition: width 0.4s ease; }
+
+  /* CARD */
+  .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 20px; }
+  .card-header { background: var(--purple-pale); border-bottom: 1px solid var(--purple-border); padding: 18px 28px; display: flex; align-items: center; gap: 12px; }
+  .card-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--purple-mid); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .card-icon svg { width: 18px; height: 18px; fill: white; }
+  .card-header h2 { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--purple-deep); }
+  .card-body { padding: 28px; }
+
+  /* LEGAL */
+  .legal-text { font-size: 13.5px; line-height: 1.75; color: var(--text-body); border-left: 3px solid var(--purple-light); padding-left: 18px; }
+  .legal-text p { margin-bottom: 14px; }
+  .legal-text p:last-child { margin-bottom: 0; }
+
+  /* FORM */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .form-grid .full { grid-column: 1 / -1; }
+  @media (max-width: 540px) { .form-grid { grid-template-columns: 1fr; } .form-grid .full { grid-column: 1; } }
+
+  label { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+  label .req { color: var(--error); margin-left: 2px; }
+
+  input[type="text"], input[type="date"], input[type="email"] {
+    width: 100%; padding: 12px 14px; border: 1.5px solid var(--purple-border); border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text-dark); background: var(--white);
+    transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+  }
+  input:focus { border-color: var(--purple-mid); box-shadow: 0 0 0 3px rgba(107,53,209,0.12); }
+  input.error { border-color: var(--error); }
+
+  /* SIGNATURE WIDGET */
+  .sig-widget { border: 1.5px solid var(--purple-border); border-radius: 8px; overflow: hidden; background: #FDFCFF; }
+  .sig-tabs { display: flex; border-bottom: 1px solid var(--purple-border); background: var(--purple-pale); }
+  .sig-tab {
+    flex: 0 0 auto; padding: 9px 16px;
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--text-muted); background: none; border: none; cursor: pointer;
+    border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s;
+  }
+  .sig-tab.active { color: var(--purple-deep); border-bottom-color: var(--purple-mid); background: var(--white); }
+  .sig-tab-spacer { flex: 1; }
+  .sig-clear {
+    background: none; border: none; font-size: 11px; font-family: 'DM Sans', sans-serif;
+    color: var(--purple-mid); cursor: pointer; font-weight: 600;
+    padding: 3px 10px; border-radius: 4px; transition: background 0.15s; margin-right: 6px;
+  }
+  .sig-clear:hover { background: var(--purple-border); }
+
+  /* DRAW panel */
+  .sig-draw-panel canvas { display: block; width: 100%; height: 130px; cursor: crosshair; touch-action: none; }
+
+  /* TYPE panel */
+  .sig-type-panel { display: none; padding: 16px; }
+  .sig-type-input {
+    width: 100%; border: 1.5px solid var(--purple-border); border-radius: 8px;
+    padding: 10px 14px; font-size: 14px; font-family: 'DM Sans', sans-serif;
+    color: var(--text-dark); margin-bottom: 12px; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .sig-type-input:focus { border-color: var(--purple-mid); box-shadow: 0 0 0 3px rgba(107,53,209,0.12); }
+  .font-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .font-btn {
+    border: 1.5px solid var(--purple-border); border-radius: 6px;
+    padding: 6px 14px; background: var(--white); cursor: pointer;
+    transition: all 0.15s; font-size: 20px; color: var(--text-dark); line-height: 1.3;
+  }
+  .font-btn.selected { border-color: var(--purple-mid); background: var(--purple-pale); color: var(--purple-deep); }
+  .sig-preview {
+    min-height: 70px; display: flex; align-items: center;
+    border-top: 1px dashed var(--purple-border); padding-top: 12px;
+    color: var(--purple-deep); font-size: 38px; overflow: hidden; line-height: 1.2;
+  }
+  .sig-preview.empty { color: var(--text-muted); font-size: 13px; font-family: 'DM Sans', sans-serif; }
+
+  /* DIVIDERS */
+  .section-divider { border: none; border-top: 1.5px dashed var(--purple-border); margin: 24px 0; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--purple-deep); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--purple-border); }
+
+  /* MINOR TOGGLE */
+  .minor-toggle-row {
+    display: flex; align-items: center; gap: 12px; padding: 14px 18px;
+    background: var(--teal-light); border: 1.5px solid #9EDCDA;
+    border-radius: 8px; cursor: pointer; user-select: none;
+  }
+  .toggle-track { width: 44px; height: 24px; border-radius: 12px; background: #CBD5E1; position: relative; flex-shrink: 0; transition: background 0.2s; }
+  .toggle-track::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: white; transition: transform 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.20); }
+  .minor-toggle-row.active .toggle-track { background: var(--teal); }
+  .minor-toggle-row.active .toggle-track::after { transform: translateX(20px); }
+  .toggle-text { font-size: 14px; font-weight: 500; color: var(--text-dark); }
+  .minor-section { display: none; margin-top: 20px; }
+  .minor-section.visible { display: block; }
+
+  /* CHECKBOX */
+  .checkbox-row { display: flex; align-items: flex-start; gap: 12px; padding: 14px 18px; background: var(--purple-pale); border: 1.5px solid var(--purple-border); border-radius: 8px; cursor: pointer; }
+  .checkbox-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--purple-mid); flex-shrink: 0; margin-top: 1px; cursor: pointer; }
+  .checkbox-row span { font-size: 13.5px; line-height: 1.55; color: var(--text-body); }
+
+  /* ERRORS */
+  .field-error { font-size: 12px; color: var(--error); margin-top: 5px; display: none; }
+  .field-error.visible { display: block; }
+
+  /* INFO BOX */
+  .info-box { background: var(--teal-light); border: 1px solid #9EDCDA; border-radius: 8px; padding: 14px 18px; font-size: 13px; color: #1A6560; display: flex; gap: 10px; align-items: flex-start; margin-bottom: 20px; }
+  .info-box svg { width: 16px; height: 16px; fill: var(--teal); flex-shrink: 0; margin-top: 1px; }
+
+  /* SUBMIT */
+  .submit-btn {
+    width: 100%; padding: 16px;
+    background: linear-gradient(135deg, var(--purple-deep), var(--purple-mid));
+    color: white; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+    border: none; border-radius: 10px; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(75,31,168,0.35);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .submit-btn:hover:not(:disabled) { opacity: 0.92; transform: translateY(-1px); }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .spinner { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; animation: spin 0.7s linear infinite; display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* SUCCESS */
+  #success-screen { display: none; text-align: center; padding: 56px 28px; }
+  .success-icon { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--success), #12D674); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 8px 30px rgba(26,171,95,0.30); }
+  .success-icon svg { width: 36px; height: 36px; fill: white; }
+  #success-screen h2 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--purple-deep); margin-bottom: 10px; }
+  #success-screen p { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+  .folio { display: inline-block; background: var(--purple-pale); border: 1px solid var(--purple-border); border-radius: 6px; padding: 6px 16px; font-size: 13px; font-weight: 600; color: var(--purple-deep); margin-top: 16px; letter-spacing: 0.08em; }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 24px; font-size: 12px; color: var(--text-muted); line-height: 1.7; }
+  footer a { color: var(--purple-mid); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-badge"><div class="logo-dot"></div>Mentoralia A.C. &nbsp;·&nbsp; Technovation Girls México 2026</div>
+  <h1>Autorización de Uso de Imagen<br>y Difusión en Medios</h1>
+  <p>Complete este formulario para otorgar su consentimiento de manera digital. Su firma tiene validez legal conforme al Código de Comercio mexicano.</p>
+</header>
+
+<main>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div id="form-wrapper">
+
+    <!-- LEGAL -->
+    <div class="card" style="margin-top:4px;">
+      <div class="card-header">
+        <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg></div>
+        <h2>Términos de la Autorización</h2>
+      </div>
+      <div class="card-body">
+        <div class="legal-text">
+          <p>Por la presente otorgo a <strong>Mentoralia A.C.</strong> permiso para usar mi nombre, videos, imágenes, voz, información y mis declaraciones, citas o testimonios en materiales de prensa distribuidos durante <strong>Technovation Girls México 2026</strong>, en conexión con materiales y actividades que promueven Mentoralia A.C. y Technovation Girls (<em>"Materiales de Promoción de Mentoralia A.C."</em>).</p>
+          <p>Esto incluye el permiso mundial para usar, copiar, distribuir, exhibir, traducir, divulgar, transmitir, interpretar, publicar y presentar dichos materiales, que contengan mi imagen, en medios locales y nacionales, sin restricción territorial.</p>
+          <p>Mentoralia A.C. no está obligada a hacer uso ni a proveer compensación alguna por los derechos o permisos garantizados por esta Autorización. Mentoralia A.C. será la exclusiva propietaria de los derechos, títulos e intereses, incluyendo los derechos de imagen, sobre los Materiales de Promoción de Mentoralia A.C.</p>
+          <p>Declaro ser mayor de 18 años y estar legalmente en pleno uso de mis facultades para firmar esta Autorización, <em>o bien</em> haber obtenido el consentimiento escrito de mis padres o representantes legales, quienes aparecen en la sección correspondiente. Entiendo que los términos de este documento son contractualmente vinculantes y he firmado por mi propia voluntad.</p>
+          <p>Esta Autorización tiene el alcance más amplio que permita la legislación aplicable. Si alguna cláusula fuera declarada inválida por un tribunal competente, el resto del documento permanecerá en plena vigencia.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARTICIPANT -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
+        <h2>Datos de la Participante</h2>
+      </div>
+      <div class="card-body">
+        <div class="info-box">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          <span>Campos con <strong>*</strong> son obligatorios. Para firmar, elija <strong>Dibujar</strong> (ratón o dedo) o <strong>Escribir</strong> su nombre con estilo caligráfico.</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="full">
+            <label>Nombre completo de la estudiante <span class="req">*</span></label>
+            <input type="text" id="nombre" placeholder="Nombre(s) y apellidos" autocomplete="name">
+            <div class="field-error" id="err-nombre">Este campo es obligatorio.</div>
+          </div>
+          <div>
+            <label>Escuela o institución <span class="req">*</span></label>
+            <input type="text" id="escuela" placeholder="Nombre de la escuela">
+            <div class="field-error" id="err-escuela">Este campo es obligatorio.</div>
+          </div>
+          <div>
+            <label>Correo electrónico <span class="req">*</span></label>
+            <input type="email" id="email" placeholder="correo@ejemplo.com" autocomplete="email">
+            <div class="field-error" id="err-email">Ingresa un correo válido.</div>
+          </div>
+          <div>
+            <label>Fecha de firma <span class="req">*</span></label>
+            <input type="date" id="fecha-participante">
+            <div class="field-error" id="err-fecha">Selecciona una fecha.</div>
+          </div>
+          <div class="full">
+            <label>Firma de la participante <span class="req">*</span></label>
+            <div class="sig-widget" id="widget-p">
+              <div class="sig-tabs">
+                <button class="sig-tab active" onclick="setMode('p','draw')">✍ Dibujar</button>
+                <button class="sig-tab" onclick="setMode('p','type')">⌨ Escribir</button>
+                <span class="sig-tab-spacer"></span>
+                <button class="sig-clear" onclick="clearSig('p')">Borrar</button>
+              </div>
+              <div class="sig-draw-panel" id="draw-p"><canvas id="canvas-p"></canvas></div>
+              <div class="sig-type-panel" id="type-p">
+                <input class="sig-type-input" id="typed-p" type="text" placeholder="Escribe tu nombre completo…" oninput="renderTyped('p')" autocomplete="off">
+                <div class="font-picker" id="fonts-p">
+                  <button class="font-btn selected" data-font="Dancing Script" onclick="pickFont('p',this)" style="font-family:'Dancing Script'">Firma</button>
+                  <button class="font-btn" data-font="Great Vibes" onclick="pickFont('p',this)" style="font-family:'Great Vibes'">Firma</button>
+                  <button class="font-btn" data-font="Satisfy" onclick="pickFont('p',this)" style="font-family:'Satisfy'">Firma</button>
+                  <button class="font-btn" data-font="Caveat" onclick="pickFont('p',this)" style="font-family:'Caveat'">Firma</button>
+                  <button class="font-btn" data-font="Pacifico" onclick="pickFont('p',this)" style="font-family:'Pacifico'">Firma</button>
+                </div>
+                <div class="sig-preview empty" id="preview-p">La vista previa de tu firma aparecerá aquí</div>
+              </div>
+            </div>
+            <div class="field-error" id="err-sig-p">Por favor, proporciona tu firma.</div>
+          </div>
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-title">Si la participante es menor de edad</div>
+        <div class="minor-toggle-row" id="minorToggle" onclick="toggleMinor()">
+          <div class="toggle-track"></div>
+          <span class="toggle-text">La estudiante tiene menos de 18 años — incluir datos del padre, madre o tutor</span>
+        </div>
+
+        <div class="minor-section" id="minorSection">
+          <div class="form-grid" style="margin-top:0">
+            <div class="full">
+              <label>Nombre completo del padre, madre o tutor <span class="req">*</span></label>
+              <input type="text" id="nombre-tutor" placeholder="Nombre completo del responsable legal">
+              <div class="field-error" id="err-tutor">Este campo es obligatorio cuando la participante es menor de edad.</div>
+            </div>
+            <div>
+              <label>Fecha de firma del tutor <span class="req">*</span></label>
+              <input type="date" id="fecha-tutor">
+              <div class="field-error" id="err-fecha-tutor">Selecciona una fecha.</div>
+            </div>
+            <div class="full">
+              <label>Firma del padre, madre o tutor <span class="req">*</span></label>
+              <div class="sig-widget" id="widget-t">
+                <div class="sig-tabs">
+                  <button class="sig-tab active" onclick="setMode('t','draw')">✍ Dibujar</button>
+                  <button class="sig-tab" onclick="setMode('t','type')">⌨ Escribir</button>
+                  <span class="sig-tab-spacer"></span>
+                  <button class="sig-clear" onclick="clearSig('t')">Borrar</button>
+                </div>
+                <div class="sig-draw-panel" id="draw-t"><canvas id="canvas-t"></canvas></div>
+                <div class="sig-type-panel" id="type-t">
+                  <input class="sig-type-input" id="typed-t" type="text" placeholder="Escribe el nombre del tutor…" oninput="renderTyped('t')" autocomplete="off">
+                  <div class="font-picker" id="fonts-t">
+                    <button class="font-btn selected" data-font="Dancing Script" onclick="pickFont('t',this)" style="font-family:'Dancing Script'">Firma</button>
+                    <button class="font-btn" data-font="Great Vibes" onclick="pickFont('t',this)" style="font-family:'Great Vibes'">Firma</button>
+                    <button class="font-btn" data-font="Satisfy" onclick="pickFont('t',this)" style="font-family:'Satisfy'">Firma</button>
+                    <button class="font-btn" data-font="Caveat" onclick="pickFont('t',this)" style="font-family:'Caveat'">Firma</button>
+                    <button class="font-btn" data-font="Pacifico" onclick="pickFont('t',this)" style="font-family:'Pacifico'">Firma</button>
+                  </div>
+                  <div class="sig-preview empty" id="preview-t">La vista previa de la firma del tutor aparecerá aquí</div>
+                </div>
+              </div>
+              <div class="field-error" id="err-sig-t">Por favor, proporciona la firma del tutor.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONSENT -->
+    <div class="card">
+      <div class="card-body">
+        <label class="checkbox-row">
+          <input type="checkbox" id="acepto" onchange="updateProgress()">
+          <span>He leído y comprendido los términos de esta Autorización en su totalidad. Acepto que mi firma digital tiene la misma validez que una firma autógrafa conforme al <em>Código de Comercio</em> de los Estados Unidos Mexicanos (Arts. 89–114) y las leyes aplicables en materia de firma electrónica.</span>
+        </label>
+        <div class="field-error" id="err-acepto" style="margin-top:8px;">Debes aceptar los términos para continuar.</div>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+      <div class="spinner" id="spinner"></div>
+      <svg id="submitIcon" width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+      <span id="submitLabel">Enviar Autorización</span>
+    </button>
+
+  </div><!-- /form-wrapper -->
+
+  <!-- SUCCESS -->
+  <div class="card" id="success-screen">
+    <div class="success-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+    <h2>¡Autorización enviada exitosamente!</h2>
+    <p>Tu consentimiento ha sido registrado en nuestra base de datos.<br>Gracias por ser parte de Technovation Girls México 2026.</p>
+    <div class="folio" id="folioNum">Folio: —</div>
+    <p style="margin-top:24px; font-size:13px; color:var(--text-muted);">Para consultas: <a href="mailto:hola@mentoralia.org">hola@mentoralia.org</a></p>
+  </div>
+</main>
+
+<footer>
+  <strong>Mentoralia A.C.</strong> · Technovation Girls México 2026<br>
+  Cumple con la <em>LFPDPPP</em> y el <em>Código de Comercio</em> de México (Arts. 89–114).<br>
+  <a href="https://www.mentoralia.org" target="_blank">www.mentoralia.org</a> · <a href="mailto:hola@mentoralia.org">hola@mentoralia.org</a>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════════
+// CONFIG — Replace with your deployed Apps Script URL
+// ══════════════════════════════════════════════════════
+const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+
+// ══════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════
+let isMinor = false;
+const sigState = {
+  p: { mode: 'draw', font: 'Dancing Script', typedText: '' },
+  t: { mode: 'draw', font: 'Dancing Script', typedText: '' }
+};
+
+// ══════════════════════════════════════════════════════
+// CANVAS
+// ══════════════════════════════════════════════════════
+function initCanvas(id) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.parentElement.getBoundingClientRect();
+  canvas.width  = rect.width * dpr;
+  canvas.height = 130 * dpr;
+  ctx.scale(dpr, dpr);
+  ctx.strokeStyle = '#1A1035'; ctx.lineWidth = 2.2;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  let drawing = false;
+  canvas._hasMark = false;
+
+  const getPos = e => { const r = canvas.getBoundingClientRect(); const s = e.touches ? e.touches[0] : e; return { x: s.clientX - r.left, y: s.clientY - r.top }; };
+  const start  = e => { e.preventDefault(); drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); };
+  const draw   = e => { e.preventDefault(); if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); canvas._hasMark = true; updateProgress(); };
+  const end    = () => { drawing = false; };
+
+  canvas.addEventListener('mousedown',  start);
+  canvas.addEventListener('mousemove',  draw);
+  canvas.addEventListener('mouseup',    end);
+  canvas.addEventListener('mouseleave', end);
+  canvas.addEventListener('touchstart', start, { passive: false });
+  canvas.addEventListener('touchmove',  draw,  { passive: false });
+  canvas.addEventListener('touchend',   end);
+
+  canvas._clear    = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); canvas._hasMark = false; };
+  canvas._dataURL  = () => canvas.toDataURL('image/png');
+}
+
+// ══════════════════════════════════════════════════════
+// SIGNATURE MODES
+// ══════════════════════════════════════════════════════
+function setMode(who, mode) {
+  sigState[who].mode = mode;
+  const tabs = document.querySelectorAll(`#widget-${who} .sig-tab`);
+  tabs[0].classList.toggle('active', mode === 'draw');
+  tabs[1].classList.toggle('active', mode === 'type');
+  document.getElementById(`draw-${who}`).style.display = mode === 'draw' ? '' : 'none';
+  document.getElementById(`type-${who}`).style.display = mode === 'type' ? 'block' : 'none';
+  updateProgress();
+}
+
+function pickFont(who, btn) {
+  sigState[who].font = btn.dataset.font;
+  document.querySelectorAll(`#fonts-${who} .font-btn`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  renderTyped(who);
+}
+
+function renderTyped(who) {
+  const text = document.getElementById(`typed-${who}`).value;
+  sigState[who].typedText = text;
+  const preview = document.getElementById(`preview-${who}`);
+  if (text.trim()) {
+    preview.classList.remove('empty');
+    preview.style.fontFamily = `'${sigState[who].font}', cursive`;
+    preview.textContent = text;
+  } else {
+    preview.classList.add('empty');
+    preview.style.fontFamily = '';
+    preview.textContent = who === 'p' ? 'La vista previa de tu firma aparecerá aquí' : 'La vista previa de la firma del tutor aparecerá aquí';
+  }
+  updateProgress();
+}
+
+function clearSig(who) {
+  const canvas = document.getElementById(`canvas-${who}`);
+  if (canvas && canvas._clear) canvas._clear();
+  document.getElementById(`typed-${who}`).value = '';
+  sigState[who].typedText = '';
+  renderTyped(who);
+  hideErr(`err-sig-${who}`);
+  updateProgress();
+}
+
+function hasSig(who) {
+  return sigState[who].mode === 'draw'
+    ? !!(document.getElementById(`canvas-${who}`)._hasMark)
+    : sigState[who].typedText.trim().length > 0;
+}
+
+function typedToDataURL(who) {
+  const text = sigState[who].typedText;
+  const font = sigState[who].font;
+  const c = document.createElement('canvas');
+  c.width = 600; c.height = 130;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#FDFCFF'; ctx.fillRect(0, 0, 600, 130);
+  ctx.fillStyle = '#1A1035';
+  ctx.font = `52px '${font}', cursive`;
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, 20, 65);
+  return c.toDataURL('image/png');
+}
+
+function getSigDataURL(who) {
+  return sigState[who].mode === 'draw'
+    ? document.getElementById(`canvas-${who}`)._dataURL()
+    : typedToDataURL(who);
+}
+
+// ══════════════════════════════════════════════════════
+// MINOR TOGGLE
+// ══════════════════════════════════════════════════════
+function toggleMinor() {
+  isMinor = !isMinor;
+  document.getElementById('minorToggle').classList.toggle('active', isMinor);
+  document.getElementById('minorSection').classList.toggle('visible', isMinor);
+  updateProgress();
+}
+
+// ══════════════════════════════════════════════════════
+// PROGRESS BAR
+// ══════════════════════════════════════════════════════
+function updateProgress() {
+  let score = 0, total = isMinor ? 9 : 6;
+  if (v('nombre'))             score++;
+  if (v('escuela'))            score++;
+  if (v('email'))              score++;
+  if (v('fecha-participante')) score++;
+  if (hasSig('p'))             score++;
+  if (document.getElementById('acepto').checked) score++;
+  if (isMinor) {
+    if (v('nombre-tutor'))     score++;
+    if (v('fecha-tutor'))      score++;
+    if (hasSig('t'))           score++;
+  }
+  document.getElementById('progressFill').style.width = (score / total * 100) + '%';
+}
+
+// ══════════════════════════════════════════════════════
+// VALIDATION HELPERS
+// ══════════════════════════════════════════════════════
+const v = id => document.getElementById(id)?.value?.trim();
+const showErr = id => document.getElementById(id)?.classList.add('visible');
+const hideErr = id => document.getElementById(id)?.classList.remove('visible');
+const markErr = (inp, err) => { document.getElementById(inp)?.classList.add('error'); showErr(err); };
+const clearErr = (inp, err) => { document.getElementById(inp)?.classList.remove('error'); hideErr(err); };
+
+['nombre','escuela','email','fecha-participante'].forEach(id => {
+  document.getElementById(id)?.addEventListener('input', () => {
+    if (v(id)) clearErr(id, 'err-' + (id === 'fecha-participante' ? 'fecha' : id));
+    updateProgress();
+  });
+});
+
+// ══════════════════════════════════════════════════════
+// SUBMIT → GOOGLE SHEETS
+// ══════════════════════════════════════════════════════
+async function submitForm() {
+  let ok = true;
+  if (!v('nombre'))             { markErr('nombre','err-nombre');   ok=false; } else clearErr('nombre','err-nombre');
+  if (!v('escuela'))            { markErr('escuela','err-escuela'); ok=false; } else clearErr('escuela','err-escuela');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('email')||'')) { markErr('email','err-email'); ok=false; } else clearErr('email','err-email');
+  if (!v('fecha-participante')) { markErr('fecha-participante','err-fecha'); ok=false; } else clearErr('fecha-participante','err-fecha');
+  if (!hasSig('p'))             { showErr('err-sig-p'); ok=false; } else hideErr('err-sig-p');
+  if (!document.getElementById('acepto').checked) { showErr('err-acepto'); ok=false; } else hideErr('err-acepto');
+  if (isMinor) {
+    if (!v('nombre-tutor'))  { markErr('nombre-tutor','err-tutor');      ok=false; } else clearErr('nombre-tutor','err-tutor');
+    if (!v('fecha-tutor'))   { markErr('fecha-tutor','err-fecha-tutor'); ok=false; } else clearErr('fecha-tutor','err-fecha-tutor');
+    if (!hasSig('t'))        { showErr('err-sig-t'); ok=false; } else hideErr('err-sig-t');
+  }
+  if (!ok) { document.querySelector('.field-error.visible')?.scrollIntoView({ behavior:'smooth', block:'center' }); return; }
+
+  // Loading UI
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  document.getElementById('spinner').style.display = 'block';
+  document.getElementById('submitIcon').style.display = 'none';
+  document.getElementById('submitLabel').textContent = 'Enviando…';
+
+  const folio = 'MNT-' + Date.now().toString(36).toUpperCase().slice(-6);
+  const payload = {
+    folio,
+    timestamp:          new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' }),
+    nombre:             v('nombre'),
+    escuela:            v('escuela'),
+    email:              v('email'),
+    fecha_participante: v('fecha-participante'),
+    sig_modo_p:         sigState.p.mode,
+    sig_fuente_p:       sigState.p.mode === 'type' ? sigState.p.font : 'Dibujada',
+    firma_participante: getSigDataURL('p'),
+    es_menor:           isMinor ? 'Sí' : 'No',
+    nombre_tutor:       isMinor ? v('nombre-tutor') : '',
+    fecha_tutor:        isMinor ? v('fecha-tutor')  : '',
+    sig_modo_t:         isMinor ? sigState.t.mode : '',
+    sig_fuente_t:       isMinor && sigState.t.mode === 'type' ? sigState.t.font : (isMinor ? 'Dibujada' : ''),
+    firma_tutor:        isMinor ? getSigDataURL('t') : '',
+  };
+
+  // Demo mode if URL not configured
+  if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+    console.log('DEMO MODE — payload:', payload);
+    await new Promise(r => setTimeout(r, 1200)); // simulate delay
+    showSuccess(folio, btn);
+    return;
+  }
+
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors', // required for Apps Script
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    showSuccess(folio, btn);
+  } catch(err) {
+    console.error(err);
+    btn.disabled = false;
+    document.getElementById('spinner').style.display = 'none';
+    document.getElementById('submitIcon').style.display = 'block';
+    document.getElementById('submitLabel').textContent = 'Error al enviar — intenta de nuevo';
+  }
+}
+
+function showSuccess(folio, btn) {
+  document.getElementById('folioNum').textContent = 'Folio: ' + folio;
+  document.getElementById('form-wrapper').style.display = 'none';
+  const ss = document.getElementById('success-screen');
+  ss.style.display = 'block';
+  ss.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ══════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════
+window.addEventListener('load', () => {
+  initCanvas('canvas-p');
+  initCanvas('canvas-t');
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('fecha-participante').value = today;
+  document.getElementById('fecha-tutor').value = today;
+  updateProgress();
+});
+window.addEventListener('resize', () => { initCanvas('canvas-p'); initCanvas('canvas-t'); });
+</script>
+</body>
+</html>
