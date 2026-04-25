@@ -493,7 +493,7 @@
 </footer>
 
 <script>
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-D5kNnvRul2fzsXfaPlSTVllllN5j_VUt9-ooZcIPsA36IHMTe0EhVifuhq9nLWdV/exec';
+const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
 
 let authChoice = null;
 
@@ -535,17 +535,8 @@ function hasSig() {
   return document.getElementById('typed-t').value.trim().length > 0;
 }
 
-function sigToDataURL() {
-  const text = document.getElementById('typed-t').value.trim();
-  const c = document.createElement('canvas');
-  c.width = 600; c.height = 130;
-  const ctx = c.getContext('2d');
-  ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, 600, 130);
-  ctx.fillStyle = '#201665';
-  ctx.font = `52px '${selectedFont}', cursive`;
-  ctx.textBaseline = 'middle';
-  ctx.fillText(text, 20, 65);
-  return c.toDataURL('image/png');
+function getSigText() {
+  return document.getElementById('typed-t').value.trim();
 }
 
 // ── PROGRESS ───────────────────────────────────────────
@@ -610,7 +601,7 @@ async function submitForm() {
     relacion_tutor:      v('relacion'),
     fecha_tutor:         v('fecha-tutor'),
     sig_fuente:          selectedFont,
-    firma_tutor:         sigToDataURL(),
+    firma_tutor:         getSigText(),
   };
 
   if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
